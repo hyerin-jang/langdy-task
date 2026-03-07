@@ -1,4 +1,4 @@
-package com.langdy.langdy_task.config
+package com.langdy.langdy_task.global.config
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager
