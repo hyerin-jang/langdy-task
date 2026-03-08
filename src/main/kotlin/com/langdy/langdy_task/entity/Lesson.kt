@@ -21,6 +21,10 @@ import java.time.LocalDateTime
     name = "lessons",
     indexes = [
         Index(name = "idx_lesson_course_start", columnList = "course_id,start_at"),
+    ],
+    uniqueConstraints = [
+        UniqueConstraint(name = "uk_teacher_start", columnNames = ["teacher_id", "start_at"]),
+        UniqueConstraint(name = "uk_student_start", columnNames = ["student_id", "start_at"]),
     ]
 )
 class Lesson(

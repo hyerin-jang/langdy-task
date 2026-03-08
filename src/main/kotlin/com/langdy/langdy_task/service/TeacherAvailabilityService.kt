@@ -1,6 +1,6 @@
 package com.langdy.langdy_task.service
 
-import com.langdy.langdy_task.common.policy.TimePolicy
+import com.langdy.langdy_task.global.policy.TimePolicy
 import com.langdy.langdy_task.controller.response.AvailableTeachersResponse
 import com.langdy.langdy_task.repository.LessonQueryRepository
 import com.langdy.langdy_task.repository.TeacherRepository
