@@ -6,6 +6,7 @@ import com.langdy.langdy_task.entity.enums.LessonStatus
 import com.langdy.langdy_task.global.exception.StudentAlreadyBookedException
 import com.langdy.langdy_task.global.exception.TeacherAlreadyBookedException
 import com.langdy.langdy_task.global.policy.TimePolicy
+import com.langdy.langdy_task.notification.NotificationPublisher
 import com.langdy.langdy_task.repository.CourseRepository
 import com.langdy.langdy_task.repository.LessonRepository
 import com.langdy.langdy_task.repository.StudentRepository
@@ -21,6 +22,7 @@ class LessonService(
     private val teacherRepository: TeacherRepository,
     private val studentRepository: StudentRepository,
     private val courseRepository: CourseRepository,
+    private val notificationPublisher: NotificationPublisher,
 ) {
     @Transactional
     fun createLesson(command: CreateLessonCommand): CreateLessonResponse {
@@ -68,7 +70,8 @@ class LessonService(
             )
         )
 
-        // TASK #3 알림 발송
+        // 알림 발송
+        notificationPublisher.publishNotification()
 
         return CreateLessonResponse(lesson.id)
     }
