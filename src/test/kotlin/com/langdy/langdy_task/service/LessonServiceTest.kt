@@ -8,12 +8,14 @@ import com.langdy.langdy_task.entity.enums.LessonStatus
 import com.langdy.langdy_task.entity.enums.Os
 import com.langdy.langdy_task.global.exception.StudentAlreadyBookedException
 import com.langdy.langdy_task.global.exception.TeacherAlreadyBookedException
+import com.langdy.langdy_task.notification.NotificationPublisher
 import com.langdy.langdy_task.repository.CourseRepository
 import com.langdy.langdy_task.repository.LessonRepository
 import com.langdy.langdy_task.repository.StudentRepository
 import com.langdy.langdy_task.repository.TeacherRepository
 import com.langdy.langdy_task.service.command.CreateLessonCommand
 import io.mockk.every
+import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
@@ -28,12 +30,14 @@ class LessonServiceTest {
     private val teacherRepository: TeacherRepository = mockk()
     private val studentRepository: StudentRepository = mockk()
     private val courseRepository: CourseRepository = mockk()
+    private val notificationPublisher: NotificationPublisher = mockk()
 
     private val lessonService = LessonService(
         lessonRepository = lessonRepository,
         teacherRepository = teacherRepository,
         studentRepository = studentRepository,
         courseRepository = courseRepository,
+        notificationPublisher = notificationPublisher,
     )
 
     @Test
@@ -81,6 +85,8 @@ class LessonServiceTest {
         } returns false
 
         every { lessonRepository.save(any()) } returns savedLesson
+
+        justRun { notificationPublisher.publishNotification() }
 
         // when
         val command = CreateLessonCommand(
